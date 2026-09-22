@@ -32,6 +32,14 @@ export function createCrownScene({ stage, system, runtime, dom }) {
   let holdY = 0
   let hintShown = false
   let linesShown = false
+  /** 当前这一幕已经跑了多久（秒）；事件回调里拿不到 elapsed，靠它记一份 */
+  let sceneTime = 0
+  /** 短诗开始铺的时刻（秒） */
+  let poemStart = -1
+  /** 短诗铺完、开始接受点击的时刻到了没有 */
+  let poemReady = false
+  /** 末句那张是否已经被点开 */
+  let finalShown = false
 
   function spawnBalloon() {
     const w = stage.width
@@ -75,7 +83,22 @@ export function createCrownScene({ stage, system, runtime, dom }) {
     dom.playHint.classList.remove('is-on')
   }
 
+  /** 短诗整屏收走，把位置让给末句那张 */
+  function revealFinal() {
+    if (finalShown) return
+    finalShown = true
+    dom.wishLines.classList.add('is-final')
+    dom.tapHint.classList.remove('is-on')
+  }
+
   function onHold(event) {
+    // 短诗铺完后的这一次点击专门用来切到末句那张，不参与攥气球，
+    // 否则切换的同时还会把气球拽过来炸掉，画面太乱。
+    if (poemReady && !finalShown) {
+      revealFinal()
+      return
+    }
+
     holding = true
     holdX = event.clientX
     holdY = event.clientY
@@ -83,7 +106,7 @@ export function createCrownScene({ stage, system, runtime, dom }) {
     system.eachKind(OWNER, BALLOON, (p) => grab(p))
   }
 
-  /** 松手：落点附近的气球一起炸开，在落点炸一发铺满屏幕的烟花，并第一次亮出那两行祝福 */
+  /** 松手：落点附近的气球一起炸开，在落点炸一发铺满屏幕的烟花，并第一次亮出那段短诗 */
   function onRelease(event) {
     if (!holding) return
     holding = false
@@ -103,6 +126,7 @@ export function createCrownScene({ stage, system, runtime, dom }) {
     // 只有第一次松手才亮出来，之后照旧可以继续攥气球放烟花
     if (!linesShown) {
       linesShown = true
+      poemStart = sceneTime
       dom.wishLines.classList.add('is-on')
     }
   }
@@ -119,6 +143,10 @@ export function createCrownScene({ stage, system, runtime, dom }) {
       holding = false
       hintShown = false
       linesShown = false
+      sceneTime = 0
+      poemStart = -1
+      poemReady = false
+      finalShown = false
       showHint()
 
       system.onBurst = (balloon) => {
@@ -146,6 +174,14 @@ export function createCrownScene({ stage, system, runtime, dom }) {
     },
 
     update(dt, elapsed) {
+      sceneTime = elapsed
+
+      // 短诗铺完，亮出「轻触继续」，这一次点击专门用来切到末句那张
+      if (linesShown && !finalShown && !poemReady && elapsed - poemStart >= cfg.poemHold / MS) {
+        poemReady = true
+        dom.tapHint.classList.add('is-on')
+      }
+
       // 开场引子：一片星光先汇聚过来、再自己淡掉
       if (!leadEmitted) {
         leadEmitted = true
@@ -213,7 +249,9 @@ export function createCrownScene({ stage, system, runtime, dom }) {
       window.removeEventListener('pointerup', onRelease)
       window.removeEventListener('pointercancel', onRelease)
       hideHint()
+      dom.tapHint.classList.remove('is-on')
       dom.wishLines.classList.remove('is-on')
+      dom.wishLines.classList.remove('is-final')
     },
   }
 

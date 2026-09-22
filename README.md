@@ -54,7 +54,7 @@ texts: {
 | `scenes.crown.fireworkSpeed` | 松手烟花的初速范围，决定能铺多满 |
 | `colors.*` | 各处配色 |
 
-祝福文字分两屏浮现，六句短诗的出场节奏在 [`src/styles/main.css`](src/styles/main.css) 的 `.wish-lines__poem` 一段：改那六个 `transition-delay`（每句间隔 2 秒）与 `@keyframes poemOut` 的 `animation-delay` 即可；末句的浮现时刻是 `.wish-lines__final` 上的 `transition-delay`。
+祝福文字分两屏浮现，六句短诗的出场节奏在 [`src/styles/main.css`](src/styles/main.css) 的 `.wish-lines__poem` 一段：改那六个 `transition-delay`（每句间隔 2 秒）即可。短诗铺完之后的停留时长由 [`config.js`](src/config.js) 的 `scenes.crown.poemHold` 决定，到点亮出「轻触继续」，点一下才切到末句那张。
 
 ## 目录结构
 

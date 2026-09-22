@@ -36,6 +36,10 @@ export const config = {
       popRadius: 150, // 落点这个范围内的气球跟着一起炸开
       gatherTighten: 18, // 「蚁球」收紧速度（像素/秒），越小聚得越慢越明显
       spinSpeed: 1.1, // 蚁球缓慢自转的角速度
+      // 六句短诗铺完后，再过这么久才接受点击切到末句那张。
+      // 需要和 main.css 里 .wish-lines__poem 的六段 transition-delay 对齐：6 句 × 2 秒 = 10 秒，
+      // 加上最后一句自身 1.1 秒的浮现，另外多留一点让人读。
+      poemHold: 11500,
     },
     cake: {
       ambientSparks: 36, // 蛋糕之外的低密度氛围星光
