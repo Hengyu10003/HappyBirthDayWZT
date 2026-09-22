@@ -16,7 +16,8 @@
       .booting .wish-hint,
       .booting .tap-hint,
       .booting .play-hint,
-      .booting .wish-lines__item {
+      .booting .wish-lines__poem p,
+      .booting .wish-lines__final {
         opacity: 0;
       }
     </style>
@@ -46,11 +47,18 @@
         <span class="play-hint__text">请为自己放个烟花吧</span>
       </div>
 
-      <!-- 松手后依次浮现的三句话：全部居中，前两句写完即收，最后一句留下 -->
+      <!-- 松手后浮现的祝福，分两屏：先是一段六句的短诗逐段累积在同一屏上，
+           整屏收走之后，最后一句单独淡入并一直留下 -->
       <div id="wish-lines" class="wish-lines" aria-hidden="true">
-        <p class="wish-lines__item">二十岁</p>
-        <p class="wish-lines__item">第一个以二开头的生日</p>
-        <p class="wish-lines__item">山山巍然，祝你长青不晦</p>
+        <div class="wish-lines__poem">
+          <p>20岁</p>
+          <p>第一个以2开头的生日</p>
+          <p>我实在难以为其赋予宏大叙事般意义</p>
+          <p>但这实在是一个值得纪念的日子</p>
+          <p>隐去虚浮的套词与难以开口的抒情</p>
+          <p>我希望所有的祝福都能在你身上应验</p>
+        </div>
+        <p class="wish-lines__final">山山巍然，祝你长青不晦</p>
       </div>
     </div>
 
