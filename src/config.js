@@ -51,12 +51,12 @@ export const config = {
       driftRatio: 0.12, // 缓慢飘散再收回的粒子占比
       candleLightAt: 3600, // 蜡烛点亮
       hintAt: 5000, // 提示「闭上眼，许个愿」浮现
-      wishDuration: 3000, // 从提示浮现起留这么久许愿，到点自动吹灭
+      wishDuration: 1000, // 从提示浮现起留这么久许愿，到点自动吹灭
       flameOut: 1100, // 烛火升起消散时长
       fireworkBursts: 10, // 吹灭后全屏烟花的次数
       sparkPerFirework: 60, // 单次烟花炸开的星光数量
-      fireworkDuration: 4200, // 烟花的整体时长，次数在这个时长里均匀铺开
-      fireworkRead: 800, // 烟花放完后再留一点时间，之后才允许点击
+      fireworkDuration: 1400, // 烟花的整体时长，次数在这个时长里均匀铺开
+      fireworkRead: 400, // 烟花放完后再留一点时间，之后才允许点击
     },
   },
 
