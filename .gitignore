@@ -1,0 +1,8 @@
+node_modules
+dist
+.vite
+*.local
+.DS_Store
+
+# 编辑器内部目录（TRAE 的工作文档，不属于项目源码）
+.trae/

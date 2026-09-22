@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#05060F" />
+    <meta name="description" content="欢迎来到 20 岁" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>欢迎来到 20 岁</title>
+    <style>
+      /*
+       * 防首屏闪烁：样式表就位之前，这几处提示文字不能露出来。
+       * 开发模式下 CSS 由 JS 注入，浏览器可能先画出一帧「无样式」的 HTML，
+       * 那几行大字就会裸着闪一下。样式就位后由 main.js 摘掉 body 上的 booting。
+       */
+      .booting .wish-hint,
+      .booting .tap-hint,
+      .booting .play-hint,
+      .booting .wish-lines__item {
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body class="booting">
+    <div id="app">
+      <!-- 夜空底层：深蓝黑渐变 + 极淡噪点，全程常驻 -->
+      <div class="night" aria-hidden="true"></div>
+
+      <!-- 粒子后层：星尘 / 气球后层 -->
+      <canvas id="fx-back" class="fx fx--back" aria-hidden="true"></canvas>
+
+      <!-- 粒子前层：气球前层 / 绽放星光 -->
+      <canvas id="fx-front" class="fx fx--front" aria-hidden="true"></canvas>
+
+      <!-- 许愿提示 -->
+      <p id="wish-hint" class="wish-hint">闭上眼，许个愿</p>
+
+      <!-- 可以点击进入下一幕时的提示 -->
+      <p id="tap-hint" class="tap-hint">轻触继续</p>
+
+      <!-- 最后一幕的引导：按住画面攥气球，松手放烟花 -->
+      <div id="play-hint" class="play-hint" aria-hidden="true">
+        <svg class="play-hint__cursor" viewBox="0 0 20 22" aria-hidden="true">
+          <path d="M2 1 L2 17 L6.2 13.2 L9.4 20 L12 18.8 L8.8 12.2 L14.5 11.5 Z" fill="currentColor" />
+        </svg>
+        <span class="play-hint__text">请为自己放个烟花吧</span>
+      </div>
+
+      <!-- 松手后依次浮现的三句话：全部居中，前两句写完即收，最后一句留下 -->
+      <div id="wish-lines" class="wish-lines" aria-hidden="true">
+        <p class="wish-lines__item">二十岁</p>
+        <p class="wish-lines__item">第一个以二开头的生日</p>
+        <p class="wish-lines__item">山山巍然，祝你长青不晦</p>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
