@@ -35,12 +35,12 @@ const PLATE = { y: 0, r: 0.52 }
 const CANDLE = { y0: 0.78, y1: 0.95, r: 0.03 }
 const FLAME = { y0: 0.95, y1: 1.04, r: 0.048 }
 
-const RING_SPACING = 0.04 // 圆环上的点距（归一化），约等于一颗粒子的直径
+const RING_SPACING = 0.02 // 圆环上的点距（归一化），约等于一颗粒子的直径
 const RING_WAVE = 0.018 // 顶棱的波浪幅度，转动时这道浪会走
 const RIB_COUNT = 56
 const RIB_HEIGHTS = [0.22, 0.5, 0.78] // 每条肋在层高上的取点位置
 const TOP_FILL = 120 // 每层顶面的填充点数
-const SIDE_FILL = 208 // 每层侧面的填充点数
+const SIDE_FILL = 416 // 每层侧面的填充点数
 const PLATE_FILL = 90 // 托盘顶面的填充点数
 const RIBBON_COUNT = 8 // 悬浮彩带的条数
 const RIBBON_SPACING = 0.034 // 彩带上的点距：仍比蛋糕本体（约 0.063）密近一倍
@@ -96,8 +96,9 @@ export function createCakePoints() {
   }
 
   for (const tier of TIERS) {
-    // 顶棱：最亮最实，负责蛋糕的发光描边；带波浪
-    ring(tier.r, tier.y1, 0.025, 0.047, pick(colors.outline), 1, 'ring', RING_WAVE)
+    // 顶棱：最亮最实，负责蛋糕的发光描边；带波浪。
+    // 点距与单点尺寸都减半 —— 换成两倍数量、更细的颗粒，轮廓才是「细闪」而不是一串大珠子
+    ring(tier.r, tier.y1, 0.014, 0.026, pick(colors.outline), 1, 'ring', RING_WAVE)
 
     // 顶面圆盘：让每一层读起来是实心的，而不是一圈线
     for (let i = 0; i < TOP_FILL; i++) {
@@ -133,6 +134,7 @@ export function createCakePoints() {
 
     // 侧面填充：把整个侧表面铺满。这一步才是「看起来是立体的」的关键 ——
     // 只靠顶棱与肋线，旋转起来读到的是一圈线，而不是一块有体积的面。
+    // 颗粒调细、数量翻倍，近看是密密的细闪，远看仍是一整块面
     for (let i = 0; i < SIDE_FILL; i++) {
       const phi = rand(0, TAU)
       const y = rand(tier.y0 + 0.02, tier.y1 - 0.01)
@@ -140,7 +142,7 @@ export function createCakePoints() {
         Math.cos(phi) * tier.r,
         y,
         Math.sin(phi) * tier.r,
-        rand(0.014, 0.028),
+        rand(0.008, 0.016),
         pick(colors.surface),
         rand(0.26, 0.44), // 明暗随机，表面才有颗粒感而不是一片均匀
         'fill',

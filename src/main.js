@@ -24,8 +24,9 @@ const dom = {
 const stage = new Stage({ back: dom.back, front: dom.front })
 stage.init()
 
-// 容量要覆盖各处峰值：开场星尘组字（约 550）与蛋糕幕（约 2760 + 氛围 36 + 烟花）
-const system = new ParticleSystem(3800)
+// 容量要覆盖各处峰值：开场星尘组字（约 550），以及蛋糕幕最吃紧的
+// 约 3700 颗粒子（顶棱与侧面加密后）+ 氛围星光 36 + 烟花 600
+const system = new ParticleSystem(4800)
 // 常驻的碎片星野：全程铺在最底层当背景，不参与任何一幕的剧情
 const starField = createStarField(260)
 const runtime = { quality: 1 }

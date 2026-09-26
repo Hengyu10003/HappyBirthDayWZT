@@ -10,10 +10,10 @@ const average = (list, key) => list.reduce((sum, p) => sum + p[key], 0) / list.l
 
 describe('createCakePoints', () => {
   it('点阵总量落在预算区间内', () => {
-    // 蛋糕身体要够密才看得出体积，点数因此上探到约 2760；
+    // 蛋糕身体要够密才看得出体积，顶棱与侧面各加密过一次，点数上探到约 3700；
     // 粒子池的容量必须同时容纳它、氛围星光与烟花，改这里时记得一起核。
     expect(points.length).toBeGreaterThan(150)
-    expect(points.length).toBeLessThanOrEqual(2900)
+    expect(points.length).toBeLessThanOrEqual(3800)
   })
 
   it('每个点的坐标、尺寸、颜色与透明度都合法', () => {

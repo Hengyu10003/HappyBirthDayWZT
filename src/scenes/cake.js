@@ -83,7 +83,9 @@ export function createCakeScene({ stage, system, runtime, dom }) {
       }
     })
 
-    const created = system.emitHoming(OWNER, items, { layer: LAYER_FRONT })
+    // twinkleRange 比默认值快一档：蛋糕表面的颗粒要「细闪」，
+    // 慢慢呼吸是看不出闪的，得让每颗光点自己抖起来
+    const created = system.emitHoming(OWNER, items, { layer: LAYER_FRONT, twinkleRange: [2.2, 5.5] })
     // emitHoming 返回的粒子与 items 一一对应，绑回去即可
     nodes = nodes.map((node, i) => Object.assign(node, { p: created[i] }))
     flameNodes = nodes.filter((node) => node.tag === 'flame')
