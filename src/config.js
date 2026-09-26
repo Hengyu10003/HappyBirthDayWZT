@@ -49,9 +49,9 @@ export const config = {
       tilt: 0.3, // 俯视倾斜，让顶面那一圈能被看见
       jitter: 1.8, // 粒子随机抖动幅度（像素）
       driftRatio: 0.12, // 缓慢飘散再收回的粒子占比
-      candleLightAt: 3600, // 蜡烛点亮
-      hintAt: 5000, // 提示「闭上眼，许个愿」浮现
-      wishDuration: 2000, // 从提示浮现起留这么久许愿，到点自动吹灭并开始放烟花
+      candleLightAt: 3600, // 蜡烛点亮；这时蛋糕已基本拼好（最后一颗粒子约 3.5 秒归位）
+      hintAt: 3600, // 蛋糕一拼好就浮现「闭上眼，许个愿」
+      wishDuration: 3000, // 提示浮现后隔 3 秒才吹灭蜡烛、开始放烟花
       flameOut: 1100, // 烛火升起消散时长
       fireworkBursts: 10, // 吹灭后全屏烟花的次数
       sparkPerFirework: 60, // 单次烟花炸开的星光数量
