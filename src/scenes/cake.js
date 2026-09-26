@@ -26,7 +26,6 @@ export function createCakeScene({ stage, system, runtime, dom }) {
   const flameOut = cfg.flameOut / MS
   const fireworkDuration = cfg.fireworkDuration / MS
   const fireworkInterval = fireworkDuration / cfg.fireworkBursts
-  const fireworkRead = cfg.fireworkRead / MS
 
   let nodes = []
   let flameNodes = []
@@ -215,9 +214,9 @@ export function createCakeScene({ stage, system, runtime, dom }) {
       measure()
     },
 
-    /** 烟花放完、画面静下来之后才允许点击进入最后一幕 */
-    isClickable(elapsed) {
-      return wishedAt >= 0 && elapsed - wishedAt >= fireworkDuration + fireworkRead
+    /** 「轻触继续」和烟花同时出现：烟花一炸开就允许点击进入最后一幕 */
+    isClickable() {
+      return wishedAt >= 0
     },
 
     update(dt, elapsed) {
