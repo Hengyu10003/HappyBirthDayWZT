@@ -30,8 +30,10 @@ export const config = {
       balloonInterval: 1150, // 气球生成间隔
       sparkPerBurst: 34, // 单只气球绽放出的星光数量
       ambientSparks: 70, // 常驻氛围星光
-      fireworkSparks: 160, // 松手时在落点炸开的星光数量
-      fireworkSpeed: [170, 620], // 烟花初速范围：决定炸开的半径，越大越铺满屏幕
+      fireworkSparks: 160, // 松手时这一发的基准星光数量（没攥到气球时的底量）
+      sparkPerBalloon: 60, // 每多攥住一只气球，这一发就多这么多星光
+      fireworkSpeed: [170, 620], // 烟花初速范围（基准值）：决定炸开的半径，越大越铺满屏幕
+      speedGainPerBalloon: 0.08, // 每多攥住一只气球，初速在基准上再涨这么多比例 —— 爆炸范围因此是叠加的
       fireworkLife: [2, 3.4], // 烟花寿命，配合初速决定最终铺开的范围
       popRadius: 150, // 落点这个范围内的气球跟着一起炸开
       gatherTighten: 18, // 「蚁球」收紧速度（像素/秒），越小聚得越慢越明显

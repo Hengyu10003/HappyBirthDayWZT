@@ -106,7 +106,13 @@ export function createCrownScene({ stage, system, runtime, dom }) {
     system.eachKind(OWNER, BALLOON, (p) => grab(p))
   }
 
-  /** 松手：落点附近的气球一起炸开，在落点炸一发铺满屏幕的烟花，并第一次亮出那段短诗 */
+  /**
+   * 松手：落点附近的气球一起炸开，在落点炸一发铺满屏幕的烟花，并第一次亮出那段短诗。
+   *
+   * 爆炸范围是叠加的 —— 攥住的气球越多，这一发就越大：星光数量按只数往上加，
+   * 初速（决定炸开的半径）也在基准上按只数往上抬。攥得越久聚得越拢、落点附近
+   * 够得着的气球就越多，一次炸开的规模自然就叠上去了。
+   */
   function onRelease(event) {
     if (!holding) return
     holding = false
@@ -114,14 +120,23 @@ export function createCrownScene({ stage, system, runtime, dom }) {
     const x = Number.isFinite(event.clientX) ? event.clientX : holdX
     const y = Number.isFinite(event.clientY) ? event.clientY : holdY
 
-    system.releaseGathered(OWNER, x, y, cfg.popRadius)
-    system.emitBurst(OWNER, x, y, Math.round(cfg.fireworkSparks * runtime.quality), config.colors.spark, {
-      speedRange: cfg.fireworkSpeed,
-      gravityRange: [34, 92],
-      lifeRange: cfg.fireworkLife,
-      sizeRange: [10, 26],
-      upwardBias: 40,
-    })
+    const popped = system.releaseGathered(OWNER, x, y, cfg.popRadius)
+    const speedGain = 1 + cfg.speedGainPerBalloon * popped
+
+    system.emitBurst(
+      OWNER,
+      x,
+      y,
+      Math.round((cfg.fireworkSparks + cfg.sparkPerBalloon * popped) * runtime.quality),
+      config.colors.spark,
+      {
+        speedRange: [cfg.fireworkSpeed[0] * speedGain, cfg.fireworkSpeed[1] * speedGain],
+        gravityRange: [34, 92],
+        lifeRange: cfg.fireworkLife,
+        sizeRange: [10, 26],
+        upwardBias: 40,
+      },
+    )
 
     // 只有第一次松手才亮出来，之后照旧可以继续攥气球放烟花
     if (!linesShown) {
